@@ -1,0 +1,4 @@
+Source,Rows,Invoices,Customers,Products,Sheets,Date_start,Date_end
+Uploaded Online Retail.xlsx,541909,25900.0,4372.0,4070.0,1.0,2010-12-01 08:26:00,2011-12-09 12:50:00
+Existing RetailPulse association artifact metadata,1007913,40077.0,,4916.0,,Not present in metadata,Not present in metadata
+Existing RetailPulse segmentation artifact,5878,,5878.0,,,Not present in artifact,Not present in artifact

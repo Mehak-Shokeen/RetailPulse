@@ -1,0 +1,5 @@
+Model,Scope,ROC_AUC,Brier,Mean_predicted_probability,Observed_inactivity_rate,Calibration_fit_performed,Note
+A: in-window,Previously saved locked/confirmatory predictions,0.7510145347633442,0.20876193587643377,0.5290386327449412,0.43365384615384617,False,Descriptive only. Do not fit calibration on this locked/previously inspected data.
+B: 12-month look-back,Previously saved locked/confirmatory predictions,0.780279698199436,0.201137343616971,0.5388630773485978,0.43365384615384617,False,Descriptive only. Do not fit calibration on this locked/previously inspected data.
+"GB-17 (before, repaired notebook)",Previously saved locked/confirmatory predictions,0.7639602936221713,0.201303778406248,0.5068750263928499,0.43365384615384617,False,Descriptive only. Do not fit calibration on this locked/previously inspected data.
+GB-7 (before),Previously saved locked/confirmatory predictions,0.7546754594581369,0.20746315067333274,0.5274434893500601,0.43365384615384617,False,Descriptive only. Do not fit calibration on this locked/previously inspected data.

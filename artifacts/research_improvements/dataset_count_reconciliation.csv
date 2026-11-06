@@ -1,0 +1,4 @@
+Stage,Rows,Invoices,Customers,Products,Notes
+Association mining input (saved metadata),1007913,40077.0,,4916.0,Saved association-module population; reconcile against source file before publication.
+Segmentation output (saved artifact),5878,,5878.0,,Customer-level population after module-specific eligibility filters.
+Recommendation temporal test cases,7253,7253.0,,,"Eligible recommendation evaluation baskets, not full raw-data rows."

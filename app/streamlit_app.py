@@ -266,6 +266,35 @@ elif page == "Recommendations":
     st.caption("Temporal holdout evaluation saved by Module 4. These metrics describe the offline test, not live conversion performance.")
     st.dataframe(eval_df, use_container_width=True, hide_index=True)
 
+# ---------- Research improvements ----------
+elif page == "Research Improvements":
+    st.title("Research Improvements & Evaluation Audit")
+    st.write("Auditable diagnostics for baselines, calibration, recommendation coverage, association-rule redundancy, segmentation, missingness, and dataset populations.")
+    improvement_dir = ARTIFACTS / "research_improvements"
+    st.info("Some experiments require the matching original Online Retail II transaction source and development-only prediction tables. See docs/research_improvements/IMPLEMENTATION_NOTES.md before interpreting missing outputs.")
+    display_files = [
+        ("Recommendation denominator comparison", "recommendation_denominator_comparison.csv"),
+        ("Association rule diagnostics", "association_rule_diagnostic_summary.csv"),
+        ("Inactivity locked diagnostics", "inactivity_locked_diagnostics.csv"),
+        ("Segmentation cluster-count comparison", "segmentation_cluster_count_comparison.csv"),
+        ("Segmentation initialization stability", "segmentation_seed_stability.csv"),
+        ("Segmentation feature profiles", "segmentation_feature_profiles.csv"),
+        ("Dataset count reconciliation", "dataset_count_reconciliation.csv"),
+        ("Source compatibility audit", "source_compatibility_audit.csv"),
+        ("Inactivity recency baseline", "inactivity_recency_baseline.csv"),
+        ("Inactivity missingness subgroups", "inactivity_missingness_subgroup_metrics.csv"),
+        ("Recommendation baseline comparison", "recommendation_baseline_comparison.csv"),
+        ("Temporal segmentation stability", "segmentation_temporal_stability.csv"),
+    ]
+    for label, filename in display_files:
+        path = improvement_dir / filename
+        if path.exists():
+            with st.expander(label, expanded=filename in ["recommendation_denominator_comparison.csv","dataset_count_reconciliation.csv"]):
+                frame = load_csv(str(path))
+                st.dataframe(frame, use_container_width=True, hide_index=True)
+                st.download_button(f"Download {label.lower()}", frame.to_csv(index=False).encode("utf-8"), filename, "text/csv", key=f"download_{filename}")
+    st.caption("Calibration is fit only on development predictions. Locked or previously inspected holdout data must not be used to fit calibration.")
+
 # ---------- About ----------
 elif page == "About & Methodology":
     st.title("About RetailPulse")

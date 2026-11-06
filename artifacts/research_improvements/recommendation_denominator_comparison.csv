@@ -1,0 +1,3 @@
+K,Eligible_baskets,Baskets_with_recommendations,No_recommendation_baskets,Coverage,Precision_at_K_all_baskets,Precision_at_K_covered_baskets,Recall_at_K_all_baskets,Interpretation
+5,7253,5711,1542,0.7873983179374052,0.1529849717358334,0.1942917177376991,0.0748905053896932,All-basket precision counts no-suggestion baskets as zero; covered-only precision conditions on successful coverage.
+10,7253,5711,1542,0.7873983179374052,0.103736384944161,0.1317457538084398,0.0904623408887066,All-basket precision counts no-suggestion baskets as zero; covered-only precision conditions on successful coverage.
