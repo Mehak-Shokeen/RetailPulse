@@ -117,3 +117,11 @@ A reload-and-predict test reproduced the original assignments for five sample cu
 - Integrate customer assignments into the RetailPulse application.
 - Use segmentation outputs alongside the future purchase inactivity prediction module.
 - Develop segment-specific business recommendations.
+
+## 10. Research-improvement addendum: expanded K selection and temporal stability
+
+K-Means was recomputed for K=2 through K=10 on the saved 5,878-customer RFM population. K=2 produced silhouette 0.4386, while K=3 produced 0.3470. K=2 therefore has stronger separation under silhouette; K=3 is retained as an interpretability alternative rather than the statistically best solution.
+
+Temporal stability was evaluated by independently fitting/scaling RFM clusters on two non-overlapping 12-month windows (Dec 2009-Nov 2010 and Dec 2010-Nov 2011), then comparing assignments for the 2,713 customers present in both windows. Adjusted Rand Index was 0.2233 for K=2 and 0.1401 for K=3. These low values indicate substantial temporal movement. The current K=3 assignments should therefore be interpreted as a descriptive snapshot, not as persistent customer identities.
+
+The expanded metrics are in `artifacts/research_improvements/segmentation_cluster_count_comparison_full.csv` and `segmentation_temporal_stability.csv`.

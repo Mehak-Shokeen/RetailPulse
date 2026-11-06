@@ -271,3 +271,8 @@ require careful treatment.
 The next project phase will establish a reproducible,
 model-aware preprocessing pipeline, followed by feature
 engineering and machine learning experimentation.
+
+
+## 5. Raw-source counts versus cleaned modelling populations
+
+The 5,942 identified-customer and 53,628 invoice counts above describe the raw workbook before cleaning. They are not the final customer-level modelling population. After exact duplicate removal, cancellation/return handling, and positive-price filtering, the canonical positive-price population contains 1,007,913 purchase lines, 40,077 invoices, and 5,878 identified customers. Customer-level model rows exclude anonymous customer IDs; product-level association mining retains eligible anonymous purchase lines. See `docs/preprocessing/preprocessing_report.md` and `artifacts/research_improvements/dataset_count_reconciliation.csv` for the reconciled stages.

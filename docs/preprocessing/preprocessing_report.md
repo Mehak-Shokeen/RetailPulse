@@ -69,3 +69,20 @@ Extreme quantities were flagged, not deleted. Bulk purchases may be legitimate r
 Processed datasets are stored in `data/processed/`.
 
 The cleaned positive-price transaction dataset is the primary input for subsequent feature engineering, subject to model-specific filtering and validation.
+
+## 10. Reconciled raw-to-model populations (verified against supplied Online Retail II workbook)
+
+The raw workbook contains 1,067,371 rows, 53,628 invoice identifiers, and 5,942 customer identifiers before cleaning. These are source-level counts, not the final modelling population.
+
+| Stage | Rows | Invoices | Customers |
+|---|---:|---:|---:|
+| Raw two-sheet workbook | 1,067,371 | 53,628 | 5,942 |
+| After exact duplicate removal | 1,033,036 | 53,628 | 5,942 |
+| Ordinary positive-quantity purchases, cancellations removed | 1,010,539 | 41,943 | 5,881 |
+| Positive-price purchase lines | 1,007,913 | 40,077 | 5,878 |
+| Identified-customer positive-price lines | 779,425 | 36,969 | 5,878 |
+| Customer segmentation output | 5,878 customers | — | 5,878 |
+
+Association mining uses all 1,007,913 positive-price purchase lines, including anonymous transactions, and therefore retains 40,077 invoice baskets. Customer-level models exclude anonymous customer IDs. This explains the previously inconsistent counts: 5,942 / 53,628 are raw-source counts, while 5,878 / 40,077 are post-cleaning counts.
+
+The reproducible stage counts and assertions are exported by `scripts/run_all_research_improvements.py` to `artifacts/research_improvements/dataset_count_reconciliation.csv` and `dataset_integrity_checks.json`.

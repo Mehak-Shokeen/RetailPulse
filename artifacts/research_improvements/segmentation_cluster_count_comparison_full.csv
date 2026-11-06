@@ -1,0 +1,10 @@
+K,Inertia,Silhouette,Davies_Bouldin,Calinski_Harabasz,N_customers,Source
+2,8588.985343295873,0.4386023012270002,0.8726692505972531,6187.991629691131,5878,Saved segmentation feature population; recomputed with fixed random seed
+3,6354.235217312423,0.347034625928741,1.0364611988216705,5214.576439264005,5878,Saved segmentation feature population; recomputed with fixed random seed
+4,4921.066882022189,0.36530350219579266,0.9308400456317771,5058.2464369498275,5878,Saved segmentation feature population; recomputed with fixed random seed
+5,4099.03567216523,0.34246001553996014,0.9516248521200568,4848.216166927414,5878,Saved segmentation feature population; recomputed with fixed random seed
+6,3554.696268860983,0.3347964327358149,0.9638936982585973,4651.569292002447,5878,Saved segmentation feature population; recomputed with fixed random seed
+7,3189.966820551446,0.3017107061997286,0.9855340114365909,4430.690335648947,5878,Saved segmentation feature population; recomputed with fixed random seed
+8,2897.763376601772,0.2966626461823219,0.9994285678922261,4264.859888379794,5878,Saved segmentation feature population; recomputed with fixed random seed
+9,2656.179403006593,0.293752594330692,0.9982519900886901,4136.8847768997575,5878,Saved segmentation feature population; recomputed with fixed random seed
+10,2463.225249886581,0.2892992301703092,1.0150233922565421,4015.6327504575925,5878,Saved segmentation feature population; recomputed with fixed random seed

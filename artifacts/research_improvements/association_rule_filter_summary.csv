@@ -1,0 +1,5 @@
+Metric,Count,Share
+Total saved association rules,1344,1.0
+Nearby numeric codes (screen only),325,0.2418154761904762
+Potential same-series (code proximity + description evidence),271,0.20163690476190477
+Rules retained after conservative filter,1073,0.7983630952380952

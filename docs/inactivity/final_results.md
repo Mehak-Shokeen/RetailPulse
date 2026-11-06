@@ -180,3 +180,21 @@ The Cox experiment is retained as a negative result.
 
 Further work should focus on rigorous comparison,
 reproducibility, documentation and integration into RetailPulse.
+
+## 8. Research-improvement addendum: simple baseline and calibration
+
+The frozen extended-lookback model (B) was compared with a recency-only baseline on the same locked customer-origin rows:
+
+| Origin | Recency-only ROC-AUC | Extended-lookback ROC-AUC |
+|---|---:|---:|
+| June 2011 | 0.6682 | 0.7858 |
+| July 2011 | 0.6748 | 0.7803 |
+| August 2011 (previously inspected) | 0.6623 | 0.7759 |
+
+The raw recency value is treated as a ranking score; Brier and log-loss are not calculated from uncalibrated day counts. A one-variable logistic probability mapping is separately fitted on April-May 2011 development out-of-fold predictions.
+
+Platt and isotonic calibrators were fitted on April-May development out-of-fold predictions only. On the June-July confirmatory block, the Brier score changed from 0.1972 (uncalibrated) to 0.1885 (Platt) and 0.1882 (isotonic). Mean predicted probability changed from 0.5406 to 0.4569 under Platt, compared with observed inactivity prevalence 0.4532.
+
+The calibration objects are saved separately in `artifacts/research_improvements/inactivity_calibrators_development_only.joblib`. `src/models/inactivity_inference.py` supports opt-in calibration through `calibrator_bundle` and `calibration_method`; calibration is not silently applied to the November 2011 saved customer-score file because later-period transfer requires validation.
+
+See `docs/research_improvements/EIGHT_IMPROVEMENTS_EXECUTION_REPORT.md` for subgroup missingness results, the data-governance table, and full execution outputs.

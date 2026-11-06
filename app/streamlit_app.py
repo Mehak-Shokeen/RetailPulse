@@ -132,6 +132,14 @@ elif page == "Customer Segmentation":
 
     st.subheader("Segment profiles")
     st.dataframe(profiles, use_container_width=True, hide_index=True)
+    diagnostics_path = ROOT / "artifacts" / "research_improvements" / "segmentation_cluster_count_comparison_full.csv"
+    stability_path = ROOT / "artifacts" / "research_improvements" / "segmentation_temporal_stability.csv"
+    if diagnostics_path.exists():
+        with st.expander("Research validation: cluster-count selection and temporal stability"):
+            st.dataframe(load_csv(str(diagnostics_path)), use_container_width=True, hide_index=True)
+            if stability_path.exists():
+                st.caption("Temporal ARI compares independently fitted clusters on two non-overlapping 12-month windows.")
+                st.dataframe(load_csv(str(stability_path)), use_container_width=True, hide_index=True)
     st.subheader("Customer records")
     search_id = st.text_input("Find customer by Customer ID", placeholder="Enter an ID or leave blank")
     if search_id.strip():
@@ -181,6 +189,18 @@ elif page == "Inactivity Prediction":
     if query.strip():
         view = view[view["Customer ID"].astype(str).str.contains(query.strip(), regex=False)]
     st.dataframe(view.sort_values(score_col, ascending=False), use_container_width=True, hide_index=True)
+    research_dir = ROOT / "artifacts" / "research_improvements"
+    with st.expander("Research validation: baselines, calibration and missing-data subgroups"):
+        for filename, caption in [
+            ("inactivity_recency_baseline_comparison.csv", "Recency-only baseline comparison; raw recency is a ranking score."),
+            ("inactivity_calibration_before_after.csv", "Calibration fit on April-May 2011 development predictions; evaluated on June-July 2011."),
+            ("inactivity_missingness_subgroup_metrics.csv", "Development out-of-fold performance by prior-history and tenure subgroup."),
+            ("inactivity_feature_missingness_audit.csv", "Missingness rates across the complete customer-snapshot table.")
+        ]:
+            fpath = research_dir / filename
+            if fpath.exists():
+                st.caption(caption)
+                st.dataframe(load_csv(str(fpath)), use_container_width=True, hide_index=True)
     with st.expander("Model context and limitations"):
         st.write(meta.get("description", "Saved inactivity prediction model."))
         st.write("Target definition:", meta.get("target_definition", "Not specified in metadata."))
@@ -193,6 +213,12 @@ elif page == "Product Associations":
     st.title("Product Association Mining")
     st.write("Explore frequent co-purchase rules generated from invoice-level baskets.")
     rules = read_artifact("artifacts/association/association_rules.csv")
+    use_filtered = st.checkbox("Exclude potential same-series rules (experimental description-based filter)", value=False)
+    if use_filtered:
+        filtered_path = ROOT / "artifacts" / "research_improvements" / "association_rules_conservative_filtered.csv"
+        if filtered_path.exists():
+            rules = load_csv(str(filtered_path))
+            st.caption("Experimental filter: code proximity plus product-description evidence. Review the audit before treating a flagged rule as trivial.")
     meta = read_metadata("artifacts/association/association_run_summary.json")
     mapping = load_product_mapping(str(DATA / "cleaned_transactions.csv"))
     c1, c2, c3 = st.columns(3)
@@ -218,6 +244,12 @@ elif page == "Recommendations":
     st.title("Basket Recommendations")
     st.write("Enter products in a basket to retrieve recommendations from the saved association rules.")
     rules = read_artifact("artifacts/association/association_rules.csv")
+    use_filtered = st.checkbox("Use conservative product-family filtered rules (experimental)", value=False)
+    if use_filtered:
+        filtered_path = ROOT / "artifacts" / "research_improvements" / "association_rules_conservative_filtered.csv"
+        if filtered_path.exists():
+            rules = load_csv(str(filtered_path))
+            st.caption("This removes candidate same-series rules using a heuristic; compare against the unfiltered output.")
     mapping = load_product_mapping(str(DATA / "cleaned_transactions.csv"))
     rules = rules.copy()
     rules["antecedent_set"] = rules["antecedent_codes"].apply(as_codes)
@@ -266,35 +298,6 @@ elif page == "Recommendations":
     st.caption("Temporal holdout evaluation saved by Module 4. These metrics describe the offline test, not live conversion performance.")
     st.dataframe(eval_df, use_container_width=True, hide_index=True)
 
-# ---------- Research improvements ----------
-elif page == "Research Improvements":
-    st.title("Research Improvements & Evaluation Audit")
-    st.write("Auditable diagnostics for baselines, calibration, recommendation coverage, association-rule redundancy, segmentation, missingness, and dataset populations.")
-    improvement_dir = ARTIFACTS / "research_improvements"
-    st.info("Some experiments require the matching original Online Retail II transaction source and development-only prediction tables. See docs/research_improvements/IMPLEMENTATION_NOTES.md before interpreting missing outputs.")
-    display_files = [
-        ("Recommendation denominator comparison", "recommendation_denominator_comparison.csv"),
-        ("Association rule diagnostics", "association_rule_diagnostic_summary.csv"),
-        ("Inactivity locked diagnostics", "inactivity_locked_diagnostics.csv"),
-        ("Segmentation cluster-count comparison", "segmentation_cluster_count_comparison.csv"),
-        ("Segmentation initialization stability", "segmentation_seed_stability.csv"),
-        ("Segmentation feature profiles", "segmentation_feature_profiles.csv"),
-        ("Dataset count reconciliation", "dataset_count_reconciliation.csv"),
-        ("Source compatibility audit", "source_compatibility_audit.csv"),
-        ("Inactivity recency baseline", "inactivity_recency_baseline.csv"),
-        ("Inactivity missingness subgroups", "inactivity_missingness_subgroup_metrics.csv"),
-        ("Recommendation baseline comparison", "recommendation_baseline_comparison.csv"),
-        ("Temporal segmentation stability", "segmentation_temporal_stability.csv"),
-    ]
-    for label, filename in display_files:
-        path = improvement_dir / filename
-        if path.exists():
-            with st.expander(label, expanded=filename in ["recommendation_denominator_comparison.csv","dataset_count_reconciliation.csv"]):
-                frame = load_csv(str(path))
-                st.dataframe(frame, use_container_width=True, hide_index=True)
-                st.download_button(f"Download {label.lower()}", frame.to_csv(index=False).encode("utf-8"), filename, "text/csv", key=f"download_{filename}")
-    st.caption("Calibration is fit only on development predictions. Locked or previously inspected holdout data must not be used to fit calibration.")
-
 # ---------- About ----------
 elif page == "About & Methodology":
     st.title("About RetailPulse")
@@ -302,7 +305,7 @@ elif page == "About & Methodology":
     st.subheader("Project modules")
     modules = [
         ("Customer Segmentation", "Saved K-means customer assignments using Recency, Frequency, and Monetary features."),
-        ("Inactivity Prediction", "Saved logistic-regression inactivity-risk scores. The target is no purchase in the next three calendar months."),
+        ("Inactivity Prediction", "Saved gradient-boosting / histogram-gradient-boosting inactivity-risk scores. The target is no purchase in the next three calendar months."),
         ("Product Association Mining", "Apriori and FP-Growth frequent itemsets and association rules based on invoice baskets."),
         ("Recommendation Engine", "Basket recommendations derived from association rules and ranked by confidence, lift, then support."),
         ("Dashboard", "Interactive exploration of the saved outputs and on-demand basket recommendations."),
@@ -310,6 +313,14 @@ elif page == "About & Methodology":
     for name, detail in modules:
         with st.expander(name):
             st.write(detail)
+    st.subheader("Research improvements and reproducibility")
+    report_path = ROOT / "docs" / "research_improvements" / "EIGHT_IMPROVEMENTS_EXECUTION_REPORT.md"
+    if report_path.exists():
+        st.markdown(report_path.read_text(encoding="utf-8"))
+    count_path = ROOT / "artifacts" / "research_improvements" / "dataset_count_reconciliation.csv"
+    if count_path.exists():
+        st.caption("Raw-source and cleaned module populations are reconciled below.")
+        st.dataframe(load_csv(str(count_path)), use_container_width=True, hide_index=True)
     st.subheader("Important interpretation notes")
     st.markdown("""
     - Cluster IDs are labels, not ordered customer-value grades.

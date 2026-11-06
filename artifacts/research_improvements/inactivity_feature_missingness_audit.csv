@@ -1,0 +1,4 @@
+Feature,Rows,Missing_rows,Missing_share,Interpretation
+PriorWindowInvoices,48394,17306,0.3576063148324172,Prior window unavailable before sufficient source history
+PriorWindowRecencyDays,48394,29341,0.606294168698599,No qualifying prior-window purchase or unavailable history
+ObservedTenureDays,48394,0,0.0,Computed from observed customer history

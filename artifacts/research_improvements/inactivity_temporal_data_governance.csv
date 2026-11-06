@@ -1,0 +1,13 @@
+Origin,Role
+2010-12,Development OOF; model fitting/selection only
+2011-01,Development OOF; model fitting/selection only
+2011-02,Development OOF; model fitting/selection only
+2011-03,Development OOF; model fitting/selection only
+2011-04,Development OOF; model fitting/selection only
+2011-05,Development OOF; model fitting/selection only
+2010-09,Exploratory subgroup diagnostic only; not used for calibration or model selection
+2010-10,Exploratory subgroup diagnostic only; not used for calibration or model selection
+2010-11,Exploratory subgroup diagnostic only; not used for calibration or model selection
+2011-06,Confirmatory block; not used to fit calibration
+2011-07,Confirmatory block; used as post-calibration evaluation
+2011-08,Previously inspected holdout; descriptive only; not pristine

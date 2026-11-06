@@ -1,0 +1,3 @@
+K,Window_1,Window_2,Customers_in_both_windows,Adjusted_Rand_Index,Method,Caveat
+2,2009-12 to 2010-11,2010-12 to 2011-11,2713,0.2233347801355317,Independent KMeans fit/scaler per non-overlapping 12-month period,ARI is label-permutation invariant; feature populations differ because customers must purchase in both periods.
+3,2009-12 to 2010-11,2010-12 to 2011-11,2713,0.14006951826455175,Independent KMeans fit/scaler per non-overlapping 12-month period,ARI is label-permutation invariant; feature populations differ because customers must purchase in both periods.

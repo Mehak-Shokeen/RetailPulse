@@ -14,11 +14,11 @@ If your virtual environment is already set up, activate it before running the co
 ## Dashboard sections
 
 - **Overview:** saved project-level counts, segment profiles, and recommendation evaluation.
-- **Customer Segmentation:** segment profiles, customer filters, and customer-level RFM records.
-- **Inactivity Prediction:** historical snapshot risk scores, selectable score variant, risk-band distribution, and customer lookup.
-- **Product Associations:** filter saved rules by confidence and lift, view product descriptions, and download filtered rules.
+- **Customer Segmentation:** segment profiles, customer filters, customer-level RFM records, cluster-count diagnostics, and temporal stability.
+- **Inactivity Prediction:** historical snapshot risk scores, selectable score variant, risk-band distribution, customer lookup, recency baseline, calibration, and missingness subgroup evidence.
+- **Product Associations:** filter saved rules by confidence and lift, compare the original rules with an experimental product-family filter, view descriptions, and download rules.
 - **Recommendations:** select products in a basket and generate recommendations from saved association rules; view offline evaluation metrics.
-- **About & Methodology:** model and metric interpretation notes.
+- **About & Methodology:** model and metric interpretation notes, eight-improvement execution report, and dataset count reconciliation.
 
 ## Data and model behavior
 
@@ -35,3 +35,8 @@ The app expects the existing project layout, including:
 - `data/processed/cleaned_transactions.csv`
 
 Keep the `app/` folder at the project root.
+
+
+## Research-improvement outputs
+
+The reproducible eight-improvement pipeline is documented in `docs/research_improvements/IMPLEMENTATION_GUIDE.md`. Run `scripts/run_all_research_improvements.py --dataset path/to/online_retail_II.xlsx` to regenerate `artifacts/research_improvements/`. The dashboard reads these outputs when present. The calibration mapping remains opt-in and is not applied automatically to saved production scores.

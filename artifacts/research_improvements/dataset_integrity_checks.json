@@ -1,0 +1,7 @@
+{
+  "raw_rows_match_expected": true,
+  "deduplicated_rows_match_report": true,
+  "canonical_positive_price_lines_match_association_artifact": true,
+  "canonical_invoice_count_matches_association_artifact": true,
+  "canonical_identified_customers_match_segmentation_output": true
+}

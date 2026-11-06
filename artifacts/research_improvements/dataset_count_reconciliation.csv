@@ -1,4 +1,9 @@
-Stage,Rows,Invoices,Customers,Products,Notes
-Association mining input (saved metadata),1007913,40077.0,,4916.0,Saved association-module population; reconcile against source file before publication.
-Segmentation output (saved artifact),5878,,5878.0,,Customer-level population after module-specific eligibility filters.
-Recommendation temporal test cases,7253,7253.0,,,"Eligible recommendation evaluation baskets, not full raw-data rows."
+Stage,Rows,Invoices,Customers,Notes
+Raw Online Retail II workbook (both sheets),1067371.0,53628.0,5942.0,"1,067,371 raw lines across two sheets."
+After exact duplicate removal across 8 source columns,1033036.0,53628.0,5942.0,SourceSheet excluded from duplicate key.
+Ordinary positive-quantity purchase events; cancellations removed,1010539.0,41943.0,5881.0,Includes zero/negative price rows until price validation.
+Canonical positive-price purchase lines,1007913.0,40077.0,5878.0,"Primary cleaned population: Quantity > 0, Price > 0."
+Identified-customer positive-price purchase lines,779425.0,36969.0,5878.0,Customer-level modelling population; anonymous transactions excluded.
+Association mining saved population,1007913.0,40077.0,,Saved metadata; matches canonical positive-price purchase-line count.
+Segmentation saved output,5878.0,,5878.0,Customer-level output after segmentation eligibility filters.
+EDA documentation legacy count (not reproduced),,53628.0,5942.0,Legacy EDA summary conflicts with canonical workbook reconstruction; do not use as final population count.
