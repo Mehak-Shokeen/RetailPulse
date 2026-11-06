@@ -1,0 +1,19 @@
+{
+  "module": "RetailPulse Module 4 - Recommendation Engine",
+  "method": "association_rule_based_basket_recommendation",
+  "rules_input": "artifacts\\association\\association_rules.csv",
+  "product_mapping_input": "data\\processed\\cleaned_transactions.csv",
+  "rules_used": 1344,
+  "ranking_order": [
+    "confidence_descending",
+    "lift_descending",
+    "support_descending"
+  ],
+  "matching_logic": "all antecedent products must be present in the input basket",
+  "recommendations_exclude_products_already_in_basket": true,
+  "sample_basket_stock_codes": [
+    "22745",
+    "22748"
+  ],
+  "sample_recommendations_export": "artifacts\\recommendation\\recommendation_engine_sample.csv"
+}

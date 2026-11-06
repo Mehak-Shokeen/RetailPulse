@@ -1,0 +1,13 @@
+{
+  "input_file": "data\\processed\\cleaned_transactions.csv",
+  "valid_purchase_lines": 1007913,
+  "invoice_baskets": 40077,
+  "unique_products": 4916,
+  "min_support": 0.01,
+  "min_confidence": 0.2,
+  "min_lift": 1.0,
+  "max_itemset_length": 3,
+  "fp_growth_itemsets": 1332,
+  "apriori_itemsets": 1332,
+  "filtered_association_rules": 1344
+}

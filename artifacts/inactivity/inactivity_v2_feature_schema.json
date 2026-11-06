@@ -1,0 +1,164 @@
+{
+  "A": {
+    "feature_columns": [
+      "Recency",
+      "Frequency",
+      "Monetary",
+      "AverageOrderValue",
+      "TotalQuantity",
+      "UniqueProducts",
+      "ActiveMonths"
+    ],
+    "schema": [
+      {
+        "position": 0,
+        "name": "Recency",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 1,
+        "name": "Frequency",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 2,
+        "name": "Monetary",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 3,
+        "name": "AverageOrderValue",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 4,
+        "name": "TotalQuantity",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 5,
+        "name": "UniqueProducts",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 6,
+        "name": "ActiveMonths",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      }
+    ],
+    "derived_params": {
+      "population_gap_days": 26.30450062799921,
+      "prior_weight": 1.0
+    },
+    "data_start": "2009-12-01"
+  },
+  "B": {
+    "feature_columns": [
+      "Recency",
+      "Frequency",
+      "Monetary",
+      "AverageOrderValue",
+      "TotalQuantity",
+      "UniqueProducts",
+      "ActiveMonths",
+      "PriorWindowInvoices",
+      "PriorWindowSpend",
+      "PriorWindowActiveMonths",
+      "PriorWindowRecencyDays",
+      "TwelveMonthTrend",
+      "ObservedTenureDays"
+    ],
+    "schema": [
+      {
+        "position": 0,
+        "name": "Recency",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 1,
+        "name": "Frequency",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 2,
+        "name": "Monetary",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 3,
+        "name": "AverageOrderValue",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 4,
+        "name": "TotalQuantity",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 5,
+        "name": "UniqueProducts",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 6,
+        "name": "ActiveMonths",
+        "group": "BASE",
+        "training_missing_share": 0.0
+      },
+      {
+        "position": 7,
+        "name": "PriorWindowInvoices",
+        "group": "PRIOR",
+        "training_missing_share": 0.3576063148324172
+      },
+      {
+        "position": 8,
+        "name": "PriorWindowSpend",
+        "group": "PRIOR_EXTRA",
+        "training_missing_share": 0.3576063148324172
+      },
+      {
+        "position": 9,
+        "name": "PriorWindowActiveMonths",
+        "group": "PRIOR_EXTRA",
+        "training_missing_share": 0.3576063148324172
+      },
+      {
+        "position": 10,
+        "name": "PriorWindowRecencyDays",
+        "group": "PRIOR_EXTRA",
+        "training_missing_share": 0.606294168698599
+      },
+      {
+        "position": 11,
+        "name": "TwelveMonthTrend",
+        "group": "PRIOR_EXTRA",
+        "training_missing_share": 0.3576063148324172
+      },
+      {
+        "position": 12,
+        "name": "ObservedTenureDays",
+        "group": "LIFETIME",
+        "training_missing_share": 0.0
+      }
+    ],
+    "derived_params": {
+      "population_gap_days": 26.30450062799921,
+      "prior_weight": 1.0
+    },
+    "data_start": "2009-12-01"
+  }
+}

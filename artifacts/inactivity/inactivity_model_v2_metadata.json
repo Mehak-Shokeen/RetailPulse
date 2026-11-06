@@ -1,0 +1,164 @@
+{
+  "model_name": "LR - A: in-window",
+  "family": "LR",
+  "params": {
+    "C": 0.01
+  },
+  "experiment": "A: in-window features only",
+  "description": "Protocol-compliant model: every feature computed inside the 6-month observation window.",
+  "feature_groups": [
+    "BASE"
+  ],
+  "feature_columns": [
+    "Recency",
+    "Frequency",
+    "Monetary",
+    "AverageOrderValue",
+    "TotalQuantity",
+    "UniqueProducts",
+    "ActiveMonths"
+  ],
+  "feature_schema": [
+    {
+      "position": 0,
+      "name": "Recency",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 1,
+      "name": "Frequency",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 2,
+      "name": "Monetary",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 3,
+      "name": "AverageOrderValue",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 4,
+      "name": "TotalQuantity",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 5,
+      "name": "UniqueProducts",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 6,
+      "name": "ActiveMonths",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    }
+  ],
+  "derived_params": {
+    "population_gap_days": 26.30450062799921,
+    "prior_weight": 1.0
+  },
+  "data_start": "2009-12-01",
+  "imputation": {
+    "strategy": "median (inside pipeline, fitted on training rows)",
+    "values": {
+      "Recency": 53.0,
+      "Frequency": 2.0,
+      "Monetary": 524.65,
+      "AverageOrderValue": 294.76250000000005,
+      "TotalQuantity": 289.0,
+      "UniqueProducts": 29.0,
+      "ActiveMonths": 1.0
+    }
+  },
+  "imputation_medians": {
+    "Recency": 53.0,
+    "Frequency": 2.0,
+    "Monetary": 524.65,
+    "AverageOrderValue": 294.76250000000005,
+    "TotalQuantity": 289.0,
+    "UniqueProducts": 29.0,
+    "ActiveMonths": 1.0
+  },
+  "target_column": "Inactive",
+  "target_definition": "1 = no purchase in the next 3 calendar months",
+  "observation_months": 6,
+  "prediction_months": 3,
+  "decision_threshold": 0.4844490765384961,
+  "decision_threshold_source": "max TPR-FPR on development-fold predictions",
+  "risk_band_cutoffs": {
+    "medium": 0.542913963660586,
+    "high": 0.6795978078022789
+  },
+  "risk_band_rule": "High >= 80th percentile and Medium >= 50th percentile of development-fold predicted probabilities",
+  "training": {
+    "snapshots": [
+      "2010-05",
+      "2010-06",
+      "2010-07",
+      "2010-08",
+      "2010-09",
+      "2010-10",
+      "2010-11",
+      "2010-12",
+      "2011-01",
+      "2011-02",
+      "2011-03",
+      "2011-04",
+      "2011-05",
+      "2011-06",
+      "2011-07",
+      "2011-08"
+    ],
+    "rows": 48394,
+    "customers": 5249,
+    "prevalence": 0.5079555316774806
+  },
+  "evaluation": {
+    "development_mean_auc": 0.7524660583773914,
+    "locked": {
+      "Confirmatory Jun-Jul 2011": {
+        "ROC_AUC": 0.7579565180044809,
+        "CI_lo": 0.7425017574288788,
+        "CI_hi": 0.7720658914348908,
+        "PR_AUC": 0.6806416248364586,
+        "Brier": 0.20494573267109917
+      },
+      "Previously inspected holdout Aug 2011": {
+        "ROC_AUC": 0.7387402247514158,
+        "CI_lo": 0.7201955325578714,
+        "CI_hi": 0.7567688241728047,
+        "PR_AUC": 0.6031189717845051,
+        "Brier": 0.21617719539688052
+      },
+      "All three locked origins": {
+        "ROC_AUC": 0.7515510869201258,
+        "CI_lo": 0.7373065077970766,
+        "CI_hi": 0.7667002029072284,
+        "PR_AUC": 0.6548007404858075,
+        "Brier": 0.20868955357969296
+      }
+    }
+  },
+  "holdout_status": "Aug 2011 was inspected in earlier work and is not a pristine test set",
+  "data_sha256": "3e0459e40940d816778fcbe9eca6e8b604ff9d8b68b3cee7fefc4111bd58c8b2",
+  "random_state": 42,
+  "library_versions": {
+    "python": "3.12.3",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4",
+    "scikit-learn": "1.8.0",
+    "xgboost": "3.4.1",
+    "lightgbm": "4.7.0",
+    "catboost": "1.2.10"
+  },
+  "created_utc": "2026-11-03T20:16:07.805276+00:00"
+}

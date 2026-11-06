@@ -1,0 +1,211 @@
+{
+  "model_name": "HGB - B: 12-month look-back",
+  "family": "HGB",
+  "params": {
+    "max_iter": 200,
+    "learning_rate": 0.05,
+    "max_leaf_nodes": 8,
+    "min_samples_leaf": 200,
+    "l2_regularization": 5.0
+  },
+  "experiment": "B: 12-month look-back (separate experiment)",
+  "description": "Uses transactions from the 6 months before the observation window in addition to the window itself.",
+  "feature_groups": [
+    "BASE",
+    "PRIOR",
+    "PRIOR_EXTRA",
+    "LIFETIME"
+  ],
+  "feature_columns": [
+    "Recency",
+    "Frequency",
+    "Monetary",
+    "AverageOrderValue",
+    "TotalQuantity",
+    "UniqueProducts",
+    "ActiveMonths",
+    "PriorWindowInvoices",
+    "PriorWindowSpend",
+    "PriorWindowActiveMonths",
+    "PriorWindowRecencyDays",
+    "TwelveMonthTrend",
+    "ObservedTenureDays"
+  ],
+  "feature_schema": [
+    {
+      "position": 0,
+      "name": "Recency",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 1,
+      "name": "Frequency",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 2,
+      "name": "Monetary",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 3,
+      "name": "AverageOrderValue",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 4,
+      "name": "TotalQuantity",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 5,
+      "name": "UniqueProducts",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 6,
+      "name": "ActiveMonths",
+      "group": "BASE",
+      "training_missing_share": 0.0
+    },
+    {
+      "position": 7,
+      "name": "PriorWindowInvoices",
+      "group": "PRIOR",
+      "training_missing_share": 0.3576063148324172
+    },
+    {
+      "position": 8,
+      "name": "PriorWindowSpend",
+      "group": "PRIOR_EXTRA",
+      "training_missing_share": 0.3576063148324172
+    },
+    {
+      "position": 9,
+      "name": "PriorWindowActiveMonths",
+      "group": "PRIOR_EXTRA",
+      "training_missing_share": 0.3576063148324172
+    },
+    {
+      "position": 10,
+      "name": "PriorWindowRecencyDays",
+      "group": "PRIOR_EXTRA",
+      "training_missing_share": 0.606294168698599
+    },
+    {
+      "position": 11,
+      "name": "TwelveMonthTrend",
+      "group": "PRIOR_EXTRA",
+      "training_missing_share": 0.3576063148324172
+    },
+    {
+      "position": 12,
+      "name": "ObservedTenureDays",
+      "group": "LIFETIME",
+      "training_missing_share": 0.0
+    }
+  ],
+  "derived_params": {
+    "population_gap_days": 26.30450062799921,
+    "prior_weight": 1.0
+  },
+  "data_start": "2009-12-01",
+  "imputation": {
+    "strategy": "native missing-value handling in the estimator",
+    "values": {}
+  },
+  "imputation_medians": {
+    "Recency": 53.0,
+    "Frequency": 2.0,
+    "Monetary": 524.65,
+    "AverageOrderValue": 294.76250000000005,
+    "TotalQuantity": 289.0,
+    "UniqueProducts": 29.0,
+    "ActiveMonths": 1.0,
+    "PriorWindowInvoices": 1.0,
+    "PriorWindowSpend": 297.07,
+    "PriorWindowActiveMonths": 1.0,
+    "PriorWindowRecencyDays": 39.0,
+    "TwelveMonthTrend": 0.4054651081081645,
+    "ObservedTenureDays": 215.0
+  },
+  "target_column": "Inactive",
+  "target_definition": "1 = no purchase in the next 3 calendar months",
+  "observation_months": 6,
+  "prediction_months": 3,
+  "decision_threshold": 0.6173741910859983,
+  "decision_threshold_source": "max TPR-FPR on development-fold predictions",
+  "risk_band_cutoffs": {
+    "medium": 0.6813089782905073,
+    "high": 0.8384526892075025
+  },
+  "risk_band_rule": "High >= 80th percentile and Medium >= 50th percentile of development-fold predicted probabilities",
+  "training": {
+    "snapshots": [
+      "2010-05",
+      "2010-06",
+      "2010-07",
+      "2010-08",
+      "2010-09",
+      "2010-10",
+      "2010-11",
+      "2010-12",
+      "2011-01",
+      "2011-02",
+      "2011-03",
+      "2011-04",
+      "2011-05",
+      "2011-06",
+      "2011-07",
+      "2011-08"
+    ],
+    "rows": 48394,
+    "customers": 5249,
+    "prevalence": 0.5079555316774806
+  },
+  "evaluation": {
+    "development_mean_auc": 0.7806888955160283,
+    "locked": {
+      "Confirmatory Jun-Jul 2011": {
+        "ROC_AUC": 0.78305446027642,
+        "CI_lo": 0.7672642589494666,
+        "CI_hi": 0.7973617239976126,
+        "PR_AUC": 0.7308400385005043,
+        "Brier": 0.19717832646673272
+      },
+      "Previously inspected holdout Aug 2011": {
+        "ROC_AUC": 0.7759036157317533,
+        "CI_lo": 0.7596693569780839,
+        "CI_hi": 0.7934489668278738,
+        "PR_AUC": 0.6667847754278764,
+        "Brier": 0.2088354665074923
+      },
+      "All three locked origins": {
+        "ROC_AUC": 0.7806708454281978,
+        "CI_lo": 0.7665458076017634,
+        "CI_hi": 0.7957537222417467,
+        "PR_AUC": 0.7094882841429616,
+        "Brier": 0.2010640398136526
+      }
+    }
+  },
+  "holdout_status": "Aug 2011 was inspected in earlier work and is not a pristine test set",
+  "data_sha256": "3e0459e40940d816778fcbe9eca6e8b604ff9d8b68b3cee7fefc4111bd58c8b2",
+  "random_state": 42,
+  "library_versions": {
+    "python": "3.12.3",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4",
+    "scikit-learn": "1.8.0",
+    "xgboost": "3.4.1",
+    "lightgbm": "4.7.0",
+    "catboost": "1.2.10"
+  },
+  "created_utc": "2026-11-03T20:16:08.737913+00:00"
+}

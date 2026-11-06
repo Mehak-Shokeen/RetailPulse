@@ -1,0 +1,62 @@
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Large datasets - do not upload
+data/raw/*
+data/processed/*
+data/sample/*
+
+# Keep data directory structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/sample/.gitkeep
+
+# Generated temporary outputs
+*.parquet
+*.feather
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3

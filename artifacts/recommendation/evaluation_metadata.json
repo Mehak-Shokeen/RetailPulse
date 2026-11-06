@@ -1,0 +1,24 @@
+{
+  "evaluation_type": "temporal_holdout",
+  "metrics": [
+    {
+      "K": 5,
+      "Precision@K": 0.1529849717,
+      "Recall@K": 0.0748905054,
+      "Coverage@K": 0.7873983179,
+      "Eligible_test_invoices": 7253,
+      "Invoices_with_recommendations": 5711
+    },
+    {
+      "K": 10,
+      "Precision@K": 0.1037363849,
+      "Recall@K": 0.0904623409,
+      "Coverage@K": 0.7873983179,
+      "Eligible_test_invoices": 7253,
+      "Invoices_with_recommendations": 5711
+    }
+  ],
+  "eligible_test_invoices": 7253,
+  "invoices_with_recommendations": 5711,
+  "evaluation_scope": "Recommendations evaluated against later purchases"
+}

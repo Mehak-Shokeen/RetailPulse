@@ -1,0 +1,13 @@
+New,Reference,Scope,dAUC,CI_lo,CI_hi,CI excludes 0
+A: in-window,GB-7 (before),Confirmatory Jun-Jul 2011,-0.003979413648853736,-0.007173498869456353,-0.0008723260085530852,True
+A: in-window,GB-7 (before),Previously inspected holdout Aug 2011,-0.0041014807201856796,-0.008411804121319425,-9.709376284521335e-05,True
+A: in-window,GB-7 (before),All three locked origins,-0.00402010267263105,-0.006666255303879641,-0.001049022181821885,True
+A: in-window,"GB-17 (before, repaired notebook)",Confirmatory Jun-Jul 2011,-0.012102912205602556,-0.017180239314298587,-0.0068548060583938425,True
+A: in-window,"GB-17 (before, repaired notebook)",Previously inspected holdout Aug 2011,-0.013480485452907476,-0.01972650831350512,-0.006913148186718332,True
+A: in-window,"GB-17 (before, repaired notebook)",All three locked origins,-0.01256210328803753,-0.01736372389175648,-0.007541650586328656,True
+B: 12-month look-back,GB-7 (before),Confirmatory Jun-Jul 2011,0.021118528623085275,0.01018285197037352,0.031165776489304905,True
+B: 12-month look-back,GB-7 (before),Previously inspected holdout Aug 2011,0.03306191026015182,0.02120715919429936,0.04476899191114953,True
+B: 12-month look-back,GB-7 (before),All three locked origins,0.025099655835440788,0.016021210738709334,0.03439579316332235,True
+B: 12-month look-back,"GB-17 (before, repaired notebook)",Confirmatory Jun-Jul 2011,0.012995030066336455,0.004377745032198181,0.021088342173937794,True
+B: 12-month look-back,"GB-17 (before, repaired notebook)",Previously inspected holdout Aug 2011,0.02368290552743002,0.0141055623850206,0.033542934464567895,True
+B: 12-month look-back,"GB-17 (before, repaired notebook)",All three locked origins,0.01655765522003431,0.009081791588300785,0.02392554934389795,True
