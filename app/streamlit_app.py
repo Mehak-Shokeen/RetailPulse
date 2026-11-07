@@ -10,6 +10,11 @@ import streamlit as st
 ROOT = Path(__file__).resolve().parents[1]
 ARTIFACTS = ROOT / "artifacts"
 DATA = ROOT / "data" / "processed"
+# Small product lookup committed to the repo (made by scripts/make_product_mapping.py).
+# Falls back to the large cleaned file only when running locally.
+MAPPING_FILE = ARTIFACTS / "association" / "product_mapping.csv"
+if not MAPPING_FILE.exists():
+    MAPPING_FILE = DATA / "cleaned_transactions.csv"
 
 st.set_page_config(
     page_title="RetailPulse | Customer Intelligence",
@@ -32,6 +37,10 @@ def load_json(path: str) -> dict:
 
 @st.cache_data(show_spinner=False)
 def load_product_mapping(path: str) -> dict[str, str]:
+    if not Path(path).exists():
+        st.error("Product lookup file is missing. Run `python scripts/make_product_mapping.py` and commit "
+                 "`artifacts/association/product_mapping.csv`.")
+        st.stop()
     df = pd.read_csv(path, usecols=["StockCode", "Description"])
     df = df.dropna(subset=["StockCode", "Description"])
     df["StockCode"] = df["StockCode"].astype(str).str.strip()
@@ -104,11 +113,11 @@ if page == "Overview":
         st.bar_chart(segment_counts.rename("Customers"))
     with right:
         profiles = read_artifact("artifacts/segmentation/segment_profiles.csv")
-        st.dataframe(profiles, use_container_width=True, hide_index=True)
+        st.dataframe(profiles, width="stretch", hide_index=True)
 
     st.subheader("Recommendation evaluation")
     st.caption("Offline temporal holdout results from the saved evaluation; these are not live business outcomes.")
-    st.dataframe(rec_eval, use_container_width=True, hide_index=True)
+    st.dataframe(rec_eval, width="stretch", hide_index=True)
 
     st.info("Inactivity scores are shown for the latest snapshot available in the saved score file: "
             f"{latest_snapshot.date() if pd.notna(latest_snapshot) else 'date unavailable'}. "
@@ -131,20 +140,20 @@ elif page == "Customer Segmentation":
     z.metric("Average monetary value", f"{view['Monetary'].mean():,.2f}")
 
     st.subheader("Segment profiles")
-    st.dataframe(profiles, use_container_width=True, hide_index=True)
+    st.dataframe(profiles, width="stretch", hide_index=True)
     diagnostics_path = ROOT / "artifacts" / "research_improvements" / "segmentation_cluster_count_comparison_full.csv"
     stability_path = ROOT / "artifacts" / "research_improvements" / "segmentation_temporal_stability.csv"
     if diagnostics_path.exists():
         with st.expander("Research validation: cluster-count selection and temporal stability"):
-            st.dataframe(load_csv(str(diagnostics_path)), use_container_width=True, hide_index=True)
+            st.dataframe(load_csv(str(diagnostics_path)), width="stretch", hide_index=True)
             if stability_path.exists():
                 st.caption("Temporal ARI compares independently fitted clusters on two non-overlapping 12-month windows.")
-                st.dataframe(load_csv(str(stability_path)), use_container_width=True, hide_index=True)
+                st.dataframe(load_csv(str(stability_path)), width="stretch", hide_index=True)
     st.subheader("Customer records")
     search_id = st.text_input("Find customer by Customer ID", placeholder="Enter an ID or leave blank")
     if search_id.strip():
         view = view[view["Customer ID"].astype(str).str.contains(search_id.strip(), regex=False)]
-    st.dataframe(view.sort_values("Monetary", ascending=False), use_container_width=True, hide_index=True)
+    st.dataframe(view.sort_values("Monetary", ascending=False), width="stretch", hide_index=True)
     st.caption("Segment numbers are cluster identifiers. Interpret them using the profile metrics above, not as an ordinal ranking.")
 
 # ---------- Inactivity ----------
@@ -170,10 +179,11 @@ elif page == "Inactivity Prediction":
     view[score_col] = pd.to_numeric(view[score_col], errors="coerce")
     view = view.dropna(subset=[score_col])
     st.caption(description)
+    st.caption("Scores rank customers well, but they are not exact probabilities: our evaluation found the average score can sit above or below the true inactivity rate as the season changes. Use the risk bands and percentiles to prioritise customers rather than reading the score as a literal chance.")
     counts = view[band_col].fillna("Unknown").value_counts()
     c1, c2, c3 = st.columns(3)
     c1.metric("Customers scored", f"{view['Customer ID'].nunique():,}")
-    c2.metric("Average risk score", f"{view[score_col].mean():.3f}")
+    c2.metric("Average risk score (uncalibrated)", f"{view[score_col].mean():.3f}")
     c3.metric("High-risk customers", f"{int((view[band_col] == 'High').sum()):,}")
     l, r = st.columns(2)
     with l:
@@ -188,7 +198,7 @@ elif page == "Inactivity Prediction":
     query = st.text_input("Search Customer ID", placeholder="Enter customer ID")
     if query.strip():
         view = view[view["Customer ID"].astype(str).str.contains(query.strip(), regex=False)]
-    st.dataframe(view.sort_values(score_col, ascending=False), use_container_width=True, hide_index=True)
+    st.dataframe(view.sort_values(score_col, ascending=False), width="stretch", hide_index=True)
     research_dir = ROOT / "artifacts" / "research_improvements"
     with st.expander("Research validation: baselines, calibration and missing-data subgroups"):
         for filename, caption in [
@@ -200,7 +210,7 @@ elif page == "Inactivity Prediction":
             fpath = research_dir / filename
             if fpath.exists():
                 st.caption(caption)
-                st.dataframe(load_csv(str(fpath)), use_container_width=True, hide_index=True)
+                st.dataframe(load_csv(str(fpath)), width="stretch", hide_index=True)
     with st.expander("Model context and limitations"):
         st.write(meta.get("description", "Saved inactivity prediction model."))
         st.write("Target definition:", meta.get("target_definition", "Not specified in metadata."))
@@ -220,7 +230,7 @@ elif page == "Product Associations":
             rules = load_csv(str(filtered_path))
             st.caption("Experimental filter: code proximity plus product-description evidence. Review the audit before treating a flagged rule as trivial.")
     meta = read_metadata("artifacts/association/association_run_summary.json")
-    mapping = load_product_mapping(str(DATA / "cleaned_transactions.csv"))
+    mapping = load_product_mapping(str(MAPPING_FILE))
     c1, c2, c3 = st.columns(3)
     c1.metric("Invoice baskets", f"{int(meta.get('invoice_baskets', 0)):,}")
     c2.metric("Unique products", f"{int(meta.get('unique_products', 0)):,}")
@@ -235,7 +245,7 @@ elif page == "Product Associations":
     display["Antecedent products"] = display["antecedent_codes"].apply(lambda s: ", ".join(pretty_product(x, mapping) for x in as_codes(s)))
     display["Consequent products"] = display["consequent_codes"].apply(lambda s: ", ".join(pretty_product(x, mapping) for x in as_codes(s)))
     cols = ["Antecedent products", "Consequent products", "support", "confidence", "lift"]
-    st.dataframe(display[cols], use_container_width=True, hide_index=True)
+    st.dataframe(display[cols], width="stretch", hide_index=True)
     st.download_button("Download filtered rules", filtered.to_csv(index=False).encode("utf-8"), "filtered_association_rules.csv", "text/csv")
     st.caption("Product associations indicate co-occurrence, not causation or guaranteed demand.")
 
@@ -250,7 +260,7 @@ elif page == "Recommendations":
         if filtered_path.exists():
             rules = load_csv(str(filtered_path))
             st.caption("This removes candidate same-series rules using a heuristic; compare against the unfiltered output.")
-    mapping = load_product_mapping(str(DATA / "cleaned_transactions.csv"))
+    mapping = load_product_mapping(str(MAPPING_FILE))
     rules = rules.copy()
     rules["antecedent_set"] = rules["antecedent_codes"].apply(as_codes)
     rules["consequent_set"] = rules["consequent_codes"].apply(as_codes)
@@ -290,13 +300,13 @@ elif page == "Recommendations":
                             .drop_duplicates("Stock code", keep="first")
                             .head(top_k))
             st.success(f"Generated {len(result)} recommendations.")
-            st.dataframe(result, use_container_width=True, hide_index=True)
+            st.dataframe(result, width="stretch", hide_index=True)
             st.download_button("Download recommendations", result.to_csv(index=False).encode("utf-8"), "basket_recommendations.csv", "text/csv")
     st.divider()
     st.subheader("Offline evaluation")
     eval_df = read_artifact("artifacts/recommendation/recommendation_evaluation.csv")
     st.caption("Temporal holdout evaluation saved by Module 4. These metrics describe the offline test, not live conversion performance.")
-    st.dataframe(eval_df, use_container_width=True, hide_index=True)
+    st.dataframe(eval_df, width="stretch", hide_index=True)
 
 # ---------- About ----------
 elif page == "About & Methodology":
@@ -305,7 +315,7 @@ elif page == "About & Methodology":
     st.subheader("Project modules")
     modules = [
         ("Customer Segmentation", "Saved K-means customer assignments using Recency, Frequency, and Monetary features."),
-        ("Inactivity Prediction", "Saved gradient-boosting / histogram-gradient-boosting inactivity-risk scores. The target is no purchase in the next three calendar months."),
+        ("Inactivity Prediction", "Saved inactivity-risk scores from two models: a logistic regression on six-month in-window features and a histogram gradient boosting model that adds a 12-month look-back. The target is no purchase in the next three calendar months."),
         ("Product Association Mining", "Apriori and FP-Growth frequent itemsets and association rules based on invoice baskets."),
         ("Recommendation Engine", "Basket recommendations derived from association rules and ranked by confidence, lift, then support."),
         ("Dashboard", "Interactive exploration of the saved outputs and on-demand basket recommendations."),
@@ -320,7 +330,7 @@ elif page == "About & Methodology":
     count_path = ROOT / "artifacts" / "research_improvements" / "dataset_count_reconciliation.csv"
     if count_path.exists():
         st.caption("Raw-source and cleaned module populations are reconciled below.")
-        st.dataframe(load_csv(str(count_path)), use_container_width=True, hide_index=True)
+        st.dataframe(load_csv(str(count_path)), width="stretch", hide_index=True)
     st.subheader("Important interpretation notes")
     st.markdown("""
     - Cluster IDs are labels, not ordered customer-value grades.
