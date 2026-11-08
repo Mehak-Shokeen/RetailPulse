@@ -1,0 +1,9 @@
+Variant,Scope,MeanAUC,Origins
+"HGB-Lookback (NaN, as in paper)",Dev Feb-May 2011,0.7806888955160283,4
+"HGB-Lookback (NaN, as in paper)",Locked Jun-Aug 2011,0.7806708454281978,3
+zero-fill structural missing,Dev Feb-May 2011,0.7539034444112472,4
+zero-fill structural missing,Locked Jun-Aug 2011,0.7829664163877417,3
+NaN + observability indicator,Dev Feb-May 2011,0.7806888955160283,4
+NaN + observability indicator,Locked Jun-Aug 2011,0.7806708454281978,3
+complete-case training (needs observable prior window),Dev Feb-May 2011,0.7794797713469988,4
+complete-case training (needs observable prior window),Locked Jun-Aug 2011,0.7793947132491268,3

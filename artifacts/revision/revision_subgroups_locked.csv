@@ -1,0 +1,8 @@
+Subgroup,Rows,MeanAUC_locked
+Tenure at or below origin median,4168,0.7493934068242151
+Tenure above origin median,4152,0.7942391923362813
+1 invoice in window,3871,0.6740458342600141
+2-3 invoices in window,2735,0.6928010463639871
+4+ invoices in window,1714,0.76066454417915
+No invoice in prior window (true zero),2826,0.7351795844462597
+1+ invoice in prior window,5494,0.7666387536348914
